@@ -1,9 +1,9 @@
-[submodule "src/ttt-lm/kernels"]
-	path = src/ttt-lm/kernels
-	url = https://github.com/test-time-training/ttt-lm-kernels.git
-[submodule "src/ttt-lm/jax"]
-	path = src/ttt-lm/jax
-	url = https://github.com/test-time-training/ttt-lm-jax.git
-[submodule "src/ttt-lm/pytorch"]
-	path = src/ttt-lm/pytorch
+[submodule "src/ttt/lm/pytorch"]
+	path = src/ttt/lm/pytorch
 	url = https://github.com/test-time-training/ttt-lm-pytorch.git
+[submodule "src/ttt/lm/jax"]
+	path = src/ttt/lm/jax
+	url = https://github.com/test-time-training/ttt-lm-jax.git
+[submodule "src/ttt/lm/kernels"]
+	path = src/ttt/lm/kernels
+	url = https://github.com/test-time-training/ttt-lm-kernels.git
