@@ -7,3 +7,6 @@
 [submodule "src/ttt/lm/kernels"]
 	path = src/ttt/lm/kernels
 	url = https://github.com/test-time-training/ttt-lm-kernels.git
+[submodule "src/ttt/vision"]
+	path = src/ttt/vision
+	url = https://github.com/yueatsprograms/ttt_cifar_release.git
