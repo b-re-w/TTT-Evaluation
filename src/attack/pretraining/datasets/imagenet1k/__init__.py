@@ -75,12 +75,6 @@ class ImageNet1K(datasets.ImageFolder):
             if path.exists(path.join(root, "data")):
                 rmdir(path.join(root, "data"))
 
-            if dataset_type != "train":
-                try:
-                    (root/"ILSVRC2012").rename(root)
-                except Exception:
-                    traceback.print_exc()
-
             for filename in list(root.iterdir()):
                 if filename.name.endswith(".JPEG") or filename.name.endswith(".jpeg"):
                     if dataset_type == "train":
@@ -89,11 +83,11 @@ class ImageNet1K(datasets.ImageFolder):
                             mkdir(path.join(root, class_name))
                         new_name = filename.name.split("_")[1] + ".JPEG"
                         filename.rename(path.join(root, class_name, new_name))
-                    elif dataset_type == "valid":
-                        class_name = filename.name.split("_")[1]
+                    elif dataset_type == "val":
+                        class_name = filename.name.replace(".JPEG", "").replace(".jpeg", "").split("_")[-1]
                         if not path.isdir(path.join(root, class_name)):
                             mkdir(path.join(root, class_name))
-                        new_name = filename.name.split("_")[0] + ".JPEG"
+                        new_name = filename.name.replace("_"+class_name, "")
                         filename.rename(path.join(root, class_name, new_name))
                     else:
                         pass
