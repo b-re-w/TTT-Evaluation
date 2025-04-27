@@ -56,6 +56,7 @@ class DatasetHolder:
         self.test = test
         self.valid = valid
         self.attack = attack
+        self.num_classes = len(train.classes) if hasattr(train, 'classes') else len(test.classes)
 
     def split_train_valid(self, split=0.1, random_seed=42):
         if self.valid is None:
@@ -70,7 +71,7 @@ class DatasetHolder:
             raise ValueError("Attack set already exists. Use a different split value.")
 
     def __repr__(self):
-        return f"DatasetHolder(train={len(self.train)}, test={len(self.test)}, valid={len(self.valid) if self.valid else 'None'}, attack={len(self.attack) if self.attack else 'None'})"
+        return f"{self.config.name.upper().replace('-', '')}DatasetHolder(train={len(self.train)}, test={len(self.test)}, valid={len(self.valid) if self.valid else 'None'}, attack={len(self.attack) if self.attack else 'None'})"
 
 
 class DatasetConfig(dict):
