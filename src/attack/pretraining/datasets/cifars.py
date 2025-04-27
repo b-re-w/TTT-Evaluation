@@ -14,7 +14,7 @@ class CIFAR10(_CIFAR10):
             target_transform: Optional[Callable] = None,
             download: bool = False,
     ):
-        super().__init__(root / self.dataset_name, train, transform, target_transform, download)
+        super().__init__(Path(root)/self.dataset_name, train, transform, target_transform, download)
 
 
 class CIFAR100(_CIFAR100):
@@ -28,4 +28,4 @@ class CIFAR100(_CIFAR100):
             target_transform: Optional[Callable] = None,
             download: bool = False,
     ):
-        super().__init__(root / self.dataset_name, train, transform, target_transform, download)
+        super().__init__(Path(root)/self.dataset_name, train, transform, target_transform, download)

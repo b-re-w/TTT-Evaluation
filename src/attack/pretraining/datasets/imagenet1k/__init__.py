@@ -1,6 +1,7 @@
 from typing import Callable, Optional
 from os import path, rmdir, mkdir
 from pathlib import Path
+import traceback
 
 from torchvision.datasets.utils import extract_archive
 from torchvision import datasets
@@ -66,18 +67,36 @@ class ImageNet1K(datasets.ImageFolder):
                 local_dir=root.parent,
                 force_download=force
             ) for filename in cls.filenames[dataset_type]]
+
             for filename in cls.filenames[dataset_type]:
                 from_path = path.join(root.parent, "data", filename)
                 extract_archive(from_path, root, remove_finished=True)
+
             if path.exists(path.join(root, "data")):
                 rmdir(path.join(root, "data"))
+
+            if dataset_type != "train":
+                try:
+                    (root/"ILSVRC2012").rename(root)
+                except Exception:
+                    traceback.print_exc()
+
             for filename in list(root.iterdir()):
                 if filename.name.endswith(".JPEG") or filename.name.endswith(".jpeg"):
-                    class_name = filename.name.split("_")[0]
-                    if not path.isdir(path.join(root, class_name)):
-                        mkdir(path.join(root, class_name))
-                    new_name = "".join(filename.name.split("_")[1:])
-                    filename.rename(path.join(root, class_name, new_name))
+                    if dataset_type == "train":
+                        class_name = filename.name.split("_")[0]
+                        if not path.isdir(path.join(root, class_name)):
+                            mkdir(path.join(root, class_name))
+                        new_name = filename.name.split("_")[1] + ".JPEG"
+                        filename.rename(path.join(root, class_name, new_name))
+                    elif dataset_type == "valid":
+                        class_name = filename.name.split("_")[1]
+                        if not path.isdir(path.join(root, class_name)):
+                            mkdir(path.join(root, class_name))
+                        new_name = filename.name.split("_")[0] + ".JPEG"
+                        filename.rename(path.join(root, class_name, new_name))
+                    else:
+                        pass
             print("INFO: Dataset downloaded successfully.")
         else:
             print("INFO: Dataset files found in the root directory. Skipping download.")
