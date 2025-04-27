@@ -90,7 +90,9 @@ class ImageNet1K(datasets.ImageFolder):
                         new_name = filename.name.replace("_"+class_name, "")
                         filename.rename(path.join(root, class_name, new_name))
                     else:
-                        pass
+                        if not path.isdir(path.join(root, "images")):
+                            mkdir(path.join(root, "images"))
+                        filename.rename(path.join(filename.parent, "images", filename.name))
             print("INFO: Dataset downloaded successfully.")
         else:
             print("INFO: Dataset files found in the root directory. Skipping download.")
