@@ -5,7 +5,9 @@ from transformers.utils import ModelOutput
 from einops.layers.torch import Rearrange
 
 from ..base import BaseModel
-import torch.nn as nn
+
+from torch.nn import functional as F
+from torch import nn
 import torch
 
 from typing import *
@@ -319,7 +321,7 @@ class TTTVisionLinear(BaseModel):
         self.config = config
         self.model = TTTForVisionCausalLM(config=config)
 
-    def forward(self, x, y):
+    def forward(self, x, y, *args, **kwargs):
         outputs = self.model(pixel_values=x, labels=y, use_cache=False)
         return outputs.logits[:, -1, :]
 

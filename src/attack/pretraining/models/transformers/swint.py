@@ -11,7 +11,7 @@ class SwinTransformer(BaseModel):
         self.model = SwinModel(config=config)
         self.fc = nn.Linear(self.config.hidden_size, num_classes)
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         out = self.model(x)
         pooled = out.pooler_output  # [batch_size, hidden_size]
         logits = self.fc(pooled)  # [batch_size, num_classes]

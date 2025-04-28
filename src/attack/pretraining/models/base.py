@@ -12,7 +12,7 @@ class BaseModel(nn.Module):
         self.image_size = image_size
         self.num_classes = num_classes
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         raise NotImplementedError("The forward method must be implemented in subclasses.")
 
     def save(self, save_path: str = path.join(".", "weights"), version: str = "", silence: bool = False):

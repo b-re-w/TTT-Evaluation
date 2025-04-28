@@ -100,7 +100,7 @@ class MLPMixerBase(BaseModel):
             channel_dim=3072
         )
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         return self.model(x)
 
 
@@ -119,5 +119,5 @@ class MLPMixerLarge(BaseModel):
             channel_dim=4096
         )
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         return self.model(x)

@@ -12,7 +12,7 @@ class ResNet50(BaseModel):
         in_features = self.model.fc.in_features
         self.model.fc = nn.Linear(in_features, num_classes)
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         return self.model(x)
 
 
@@ -25,7 +25,7 @@ class ResNet101(BaseModel):
         in_features = self.model.fc.in_features
         self.model.fc = nn.Linear(in_features, num_classes)
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         return self.model(x)
 
 
@@ -38,5 +38,5 @@ class ResNet152(BaseModel):
         in_features = self.model.fc.in_features
         self.model.fc = nn.Linear(in_features, num_classes)
 
-    def forward(self, x):
+    def forward(self, x, *args, **kwargs):
         return self.model(x)
