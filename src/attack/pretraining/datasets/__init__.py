@@ -75,11 +75,12 @@ class DatasetHolder:
 
 
 class DatasetConfig(dict):
-    def __init__(self, name, size, norm, augmenter=None, resizer=None):
+    def __init__(self, name, size, norm, augmenter=None, resizer=None, epoch=None):
         super().__init__()
         self.name = name
         self.size = size
         self.norm = norm
+        self.epoch = epoch
         self.augmentation = augmenter(size, norm) if augmenter else self.augmenter(size, norm)
         self.resizing = resizer(size, norm) if resizer else self.resizer(size, norm)
 
@@ -117,18 +118,21 @@ class DatasetConfig(dict):
 CIFAR10Config = DatasetConfig(
     name=CIFAR10.dataset_name,
     size=32,
-    norm=dict(mean=(0.4914, 0.4822, 0.4465), std=(0.2470, 0.2435, 0.2616))
+    norm=dict(mean=(0.4914, 0.4822, 0.4465), std=(0.2470, 0.2435, 0.2616)),
+    epoch=200
 )
 
 CIFAR100Config = DatasetConfig(
     name=CIFAR100.dataset_name,
     size=32,
-    norm=dict(mean=(0.5071, 0.4865, 0.4409), std=(0.2673, 0.2564, 0.2762))
+    norm=dict(mean=(0.5071, 0.4865, 0.4409), std=(0.2673, 0.2564, 0.2762)),
+    epoch=1000
 )
 
 IMAGENET1KConfig = DatasetConfig(
     name=ImageNet1K.dataset_name,
     size=224,
     norm=dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-    resizer=lambda s, n: DatasetConfig.centered_resizer(256, s, n)
+    resizer=lambda s, n: DatasetConfig.centered_resizer(256, s, n),
+    epoch=1000
 )
