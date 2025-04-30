@@ -15,6 +15,12 @@ class LongformerForVisionClassification(BaseModel):
         self.patch_size = longformer_config.hidden_size // 64  # Calculate patch size
         self.num_patches = (image_size // self.patch_size) ** 2
 
+        # Sequence length for Longformer
+        seq_length = self.num_patches + 1
+        window_size = longformer_config.attention_window[0]
+        padded_seq_length = (seq_length + window_size - 1) // window_size * window_size
+        longformer_config.max_position_embeddings = padded_seq_length + 100
+
         # Load Longformer model from transformers
         self.model = LongformerModel(longformer_config)
 
@@ -91,6 +97,7 @@ class LongformerVisionBase(LongformerForVisionClassification):
             attention_window=[8] * 12,  # Sliding window size for each layer
             max_position_embeddings=(image_size // 16) ** 2 + 1,
             layer_norm_eps=1e-12,
+            pad_token_id=0,
             vocab_size=1  # Not used for vision tasks but required in config
         )
         super().__init__(image_size=image_size, num_classes=num_classes, longformer_config=config)
@@ -111,6 +118,7 @@ class LongformerVisionLarge(LongformerForVisionClassification):
             attention_window=[12] * 24,  # Wider sliding windows for Large model
             max_position_embeddings=(image_size // 16) ** 2 + 1,
             layer_norm_eps=1e-12,
+            pad_token_id=0,
             vocab_size=1
         )
         super().__init__(image_size=image_size, num_classes=num_classes, longformer_config=config)

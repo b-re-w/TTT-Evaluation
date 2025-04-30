@@ -79,6 +79,7 @@ class FNetVisionBase(FNetForVisionClassification):
             hidden_dropout_prob=0.1,
             max_position_embeddings=(image_size // 16) ** 2 + 1,
             layer_norm_eps=1e-12,
+            pad_token_id=0,
             vocab_size=1  # Not used for vision tasks but required in config
         )
         super().__init__(image_size=image_size, num_classes=num_classes, fnet_config=config)
@@ -97,6 +98,7 @@ class FNetVisionLarge(FNetForVisionClassification):
             hidden_dropout_prob=0.1,
             max_position_embeddings=(image_size // 16) ** 2 + 1,
             layer_norm_eps=1e-12,
+            pad_token_id=0,
             vocab_size=1
         )
         super().__init__(image_size=image_size, num_classes=num_classes, fnet_config=config)
