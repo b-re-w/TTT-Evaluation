@@ -5,7 +5,6 @@ from os import path, makedirs
 class BaseModel(nn.Module):
     model_name = "BaseModel"
     dataset_name = "Dataset"
-    self_loss_calculation = False
 
     def __init__(self, image_size: int, num_classes: int):
         super().__init__()

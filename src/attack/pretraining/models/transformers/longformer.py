@@ -37,7 +37,7 @@ class LongformerForVisionClassification(BaseModel):
         # Classification head
         self.classifier = nn.Linear(longformer_config.hidden_size, num_classes)
 
-    def forward(self, x, y=None, *args, **kwargs):
+    def forward(self, x, *args, **kwargs):
         batch_size = x.shape[0]
 
         # Convert images to patches
@@ -72,11 +72,6 @@ class LongformerForVisionClassification(BaseModel):
 
         # Use the output of the classification token for classification
         logits = self.classifier(outputs.last_hidden_state[:, 0])
-
-        if y is not None and self.training:
-            loss_fct = nn.CrossEntropyLoss()
-            loss = loss_fct(logits, y)
-            return loss
 
         return logits
 

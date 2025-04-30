@@ -33,6 +33,7 @@ class TTTVisionConfig(PretrainedConfig):
             rms_norm_eps=1e-6,
             pretraining_tp=1,
             use_cache=True,
+            rope_theta=10000.0,
             mini_batch_size=16,
             use_gate=False,
             share_qk=False,
@@ -61,6 +62,7 @@ class TTTVisionConfig(PretrainedConfig):
         self.rms_norm_eps = rms_norm_eps
         self.pretraining_tp = pretraining_tp
         self.use_cache = use_cache
+        self.rope_theta = rope_theta
 
         self.use_gate = use_gate
         self.share_qk = share_qk
@@ -314,20 +316,19 @@ class TTTForVisionCausalLM(TTTForCausalLM):
 
 
 class TTTVisionLinear(BaseModel):
-    self_loss_calculation = True
-
     def __init__(self, config: TTTVisionConfig, num_classes: int):
         super().__init__(image_size=config.image_size, num_classes=num_classes)
         self.config = config
         self.model = TTTForVisionCausalLM(config=config)
 
-    def forward(self, x, y, *args, **kwargs):
-        outputs = self.model(pixel_values=x, labels=y, use_cache=False)
+    def forward(self, x, *args, **kwargs):
+        outputs = self.model(pixel_values=x, use_cache=False)
         return outputs.logits[:, -1, :]
 
 
 class TTTVisionTiny(TTTVisionLinear):
     model_name = "Vision-TTTLinear-Tiny_P4H6E64"
+
     def __init__(self, image_size: int, num_classes: int):
         config = TTTVisionConfig(
             image_size=image_size,
@@ -345,6 +346,7 @@ class TTTVisionTiny(TTTVisionLinear):
 
 class TTTVisionSmall(TTTVisionLinear):
     model_name = "Vision-TTTLinear-Small_P4H6E192"
+
     def __init__(self, image_size: int, num_classes: int):
         config = TTTVisionConfig(
             image_size=image_size,
@@ -362,6 +364,7 @@ class TTTVisionSmall(TTTVisionLinear):
 
 class TTTVisionBase(TTTVisionLinear):
     model_name = "Vision-TTTLinear-Base_P7H6E384"
+
     def __init__(self, image_size: int, num_classes: int):
         config = TTTVisionConfig(
             image_size=image_size,
