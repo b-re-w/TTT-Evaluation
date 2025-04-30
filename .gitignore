@@ -163,4 +163,10 @@ cython_debug/
 .DS_Store
 
 # Dataset
-data
+data/
+
+# WandB
+wandb/
+
+# Model Weights
+weights/
