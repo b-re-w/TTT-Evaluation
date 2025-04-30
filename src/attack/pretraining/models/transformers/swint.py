@@ -23,7 +23,6 @@ class SwinTiny(SwinTransformer):
 
     def __init__(self, image_size: int, num_classes: int):
         config = SwinConfig.from_pretrained("microsoft/swin-tiny-patch4-window7-224")
-        config.image_size = image_size
         super().__init__(config=config, num_classes=num_classes)
 
 
@@ -32,7 +31,6 @@ class SwinBase(SwinTransformer):
 
     def __init__(self, image_size: int, num_classes: int):
         config = SwinConfig.from_pretrained("microsoft/swin-base-patch4-window7-224")
-        config.image_size = image_size
         super().__init__(config=config, num_classes=num_classes)
 
 
@@ -41,5 +39,4 @@ class SwinLarge(SwinTransformer):
 
     def __init__(self, image_size: int, num_classes: int):
         config = SwinConfig.from_pretrained("microsoft/swin-large-patch4-window7-224")
-        config.image_size = image_size
         super().__init__(config=config, num_classes=num_classes)

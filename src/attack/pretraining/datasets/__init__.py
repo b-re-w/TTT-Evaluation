@@ -75,7 +75,7 @@ class DatasetHolder:
 
 
 class DatasetConfig(dict):
-    def __init__(self, name, size, norm, augmenter=None, resizer=None, epoch=None):
+    def __init__(self, name, size, norm, epoch, augmenter=None, resizer=None):
         super().__init__()
         self.name = name
         self.size = size
@@ -83,6 +83,8 @@ class DatasetConfig(dict):
         self.epoch = epoch
         self.augmentation = augmenter(size, norm) if augmenter else self.augmenter(size, norm)
         self.resizing = resizer(size, norm) if resizer else self.resizer(size, norm)
+
+        self.FOR_SWIN = None
 
     def __repr__(self):
         return f"DatasetConfig(size={self.size}, norm={self.norm})"
@@ -121,6 +123,7 @@ CIFAR10Config = DatasetConfig(
     norm=dict(mean=(0.4914, 0.4822, 0.4465), std=(0.2470, 0.2435, 0.2616)),
     epoch=200
 )
+CIFAR10Config.FOR_SWIN = DatasetConfig(CIFAR10Config.name, 224, CIFAR10Config.norm, CIFAR10Config.epoch)
 
 CIFAR100Config = DatasetConfig(
     name=CIFAR100.dataset_name,
@@ -128,6 +131,7 @@ CIFAR100Config = DatasetConfig(
     norm=dict(mean=(0.5071, 0.4865, 0.4409), std=(0.2673, 0.2564, 0.2762)),
     epoch=1000
 )
+CIFAR100Config.FOR_SWIN = DatasetConfig(CIFAR100Config.name, 224, CIFAR100Config.norm, CIFAR100Config.epoch)
 
 IMAGENET1KConfig = DatasetConfig(
     name=ImageNet1K.dataset_name,
