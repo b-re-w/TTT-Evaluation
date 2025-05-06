@@ -61,7 +61,7 @@ class MLPMixer(nn.Module):
         self.mixer_height = mixer_height
 
         self.to_patch_embedding = nn.Sequential(
-            Rearrange('b (h p1) (w p2) -> b (h w) (p1 p2)', p1=patch_size, p2=patch_size),
+            Rearrange('b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1=patch_size, p2=patch_size),
             nn.Linear(self.patch_dim, embed_dim)
         )
 
