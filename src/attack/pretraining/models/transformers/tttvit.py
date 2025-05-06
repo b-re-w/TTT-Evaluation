@@ -318,6 +318,8 @@ class TTTForVisionCausalLM(TTTForCausalLM):
 class TTTVisionLinear(BaseModel):
     def __init__(self, config: TTTVisionConfig, num_classes: int):
         super().__init__(image_size=config.image_size, num_classes=num_classes)
+        num_patches = (config.image_size // config.patch_size) ** 2
+        config.scan_group_size = min(4, max(1, num_patches // 256))
         self.config = config
         self.model = TTTForVisionCausalLM(config=config)
 
@@ -338,7 +340,6 @@ class TTTVisionTiny(TTTVisionLinear):
             num_hidden_layers=6,
             num_attention_heads=8,
             intermediate_size=64,
-            scan_checkpoint_group_size=4,
             mini_batch_size=56
         )
         super().__init__(config=config, num_classes=num_classes)
@@ -356,7 +357,6 @@ class TTTVisionSmall(TTTVisionLinear):
             num_hidden_layers=6,    # 1/2 of Vi-T
             num_attention_heads=8,
             intermediate_size=192,  # 1/4 of Vi-T
-            scan_checkpoint_group_size=4,
             mini_batch_size=56
         )
         super().__init__(config=config, num_classes=num_classes)
@@ -374,7 +374,6 @@ class TTTVisionBase(TTTVisionLinear):
             num_hidden_layers=6,
             num_attention_heads=8,
             intermediate_size=384,
-            scan_checkpoint_group_size=4,
             mini_batch_size=56
         )
         super().__init__(config=config, num_classes=num_classes)
@@ -392,7 +391,6 @@ class TTTVisionLarge(TTTVisionLinear):
             num_hidden_layers=12,
             num_attention_heads=12,
             intermediate_size=768,
-            scan_checkpoint_group_size=4,
             mini_batch_size=56
         )
         super().__init__(config=config, num_classes=num_classes)
