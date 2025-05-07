@@ -363,12 +363,12 @@ class TTTVisionSmall(TTTVisionLinear):
 
 
 class TTTVisionBase(TTTVisionLinear):
-    model_name = "Vision-TTTLinear-Base_P7H6E384"
+    model_name = "Vision-TTTLinear-Base_P8H6E384"
 
     def __init__(self, image_size: int, num_classes: int):
         config = TTTVisionConfig(
             image_size=image_size,
-            patch_size=7,
+            patch_size=8,
             encoder_stride=2,
             hidden_size=384,
             num_hidden_layers=6,
